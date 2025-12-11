@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard de Análises</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 flex">
+  <!-- Sidebar -->
+  <aside class="w-64 bg-gray-900 text-gray-200 p-6 hidden md:block">
+    <h1 class="text-xl font-bold mb-6">Dashboard</h1>
+    <ul class="space-y-4">
+      <li><a href="#" class="hover:text-indigo-400">Análises</a></li>
+      <li><a href="#" class="hover:text-indigo-400">Relatórios</a></li>
+      <li><a href="#" class="hover:text-indigo-400">Configurações</a></li>
+    </ul>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <main class="flex-1 p-6">
+    <h2 class="text-2xl font-semibold text-center mb-6">Dashboard de Análises</h2>
+
+    <!-- Filtro -->
+    <div class="flex justify-center mb-6">
+      <select id="anoSelect" class="px-4 py-2 border rounded-lg">
+        <option value="2024">Ano 2024</option>
+        <option value="2025">Ano 2025</option>
+      </select>
+    </div>
+
+    <!-- Gráfico -->
+    <div class="bg-white p-6 rounded-xl shadow-md">
+      <canvas id="grafico"></canvas>
+    </div>
+  </main>
+
+  <script>
+    const ctx = document.getElementById('grafico').getContext('2d');
+
+    const data2024 = {
+      labels: ["Jan", "Fev", "Mar", "Abr"],
+      datasets: [{
+        label: "Vendas 2024",
+        data: [400, 300, 500, 200],
+        borderColor: "#4f46e5",
+        backgroundColor: "#4f46e5",
+        tension: 0.3
+      }]
+    };
+
+    const data2025 = {
+      labels: ["Jan", "Fev", "Mar", "Abr"],
+      datasets: [{
+        label: "Vendas 2025",
+        data: [600, 700, 800, 650],
+        borderColor: "#16a34a",
+        backgroundColor: "#16a34a",
+        tension: 0.3
+      }]
+    };
+
+    let chart = new Chart(ctx, {
+      type: "line",
+      data: data2024,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true }
+        }
+      }
+    });
+
+    document.getElementById("anoSelect").addEventListener("change", (e) => {
+      chart.data = e.target.value === "2024" ? data2024 : data2025;
+      chart.update();
+    });
+  </script>
+</body>
+</html>
